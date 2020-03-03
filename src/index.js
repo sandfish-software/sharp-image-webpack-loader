@@ -23,6 +23,7 @@
 // SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
+import path from 'path';
 import loaderUtils from 'loader-utils';
 import sharp from 'sharp';
 
@@ -34,7 +35,17 @@ export default function loader(src) {
     Object.assign(options, loaderUtils.parseQuery(this.resourceQuery));
   }
 
-  const transformer = sharp(src);
+  let transformer = sharp(src);
+  if (options.format) {
+    const newPathPieces = path.parse(this.resourcePath);
+    const newPath = path.format({
+      dir: newPathPieces.dir,
+      name: newPathPieces.name,
+      ext: `.${options.format}`,
+    });
+    this.resourcePath = newPath;
+    transformer = transformer.toFormat(options.format);
+  }
   Object.assign(transformer.options, options);
 
   return transformer.toBuffer(this.async());
