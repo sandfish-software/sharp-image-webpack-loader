@@ -38,6 +38,7 @@ export default function loader(src) {
   let transformer = sharp(src);
   if (options.format) {
     const newPathPieces = path.parse(this.resourcePath);
+    const originalFormat = newPathPieces.ext;
     const newPath = path.format({
       dir: newPathPieces.dir,
       name: newPathPieces.name,
@@ -45,6 +46,9 @@ export default function loader(src) {
     });
     this.resourcePath = newPath;
     transformer = transformer.toFormat(options.format);
+    if(originalFormat === '.png' && format === 'webp') {
+      transformer = transformer.webp({ lossless: true });
+    }
   }
   Object.assign(transformer.options, options);
 
