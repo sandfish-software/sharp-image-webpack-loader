@@ -46,7 +46,7 @@ export default function loader(src) {
     });
     this.resourcePath = newPath;
     transformer = transformer.toFormat(options.format);
-    if(originalFormat === '.png' && format === 'webp') {
+    if(originalFormat === '.png' && options.format === 'webp') {
       transformer = transformer.webp({ lossless: true });
     }
   }
