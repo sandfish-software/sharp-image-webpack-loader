@@ -45,9 +45,13 @@ export default function loader(src) {
       ext: `.${options.format}`,
     });
     this.resourcePath = newPath;
-    transformer = transformer.toFormat(options.format);
-    if(originalFormat === '.png' && options.format === 'webp') {
-      transformer = transformer.webp({ lossless: true });
+    if(options.format === 'webp') {
+      transformer = transformer.webp({
+        lossless: originalFormat === '.png',
+        reductionEffort: 6,
+      });
+    } else {
+      transformer = transformer.toFormat(options.format);
     }
   }
   Object.assign(transformer.options, options);
