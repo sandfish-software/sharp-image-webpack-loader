@@ -1,6 +1,6 @@
 {
   "name": "@sandfish-software/sharp-image-webpack-loader",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Sharp image loader module for webpack",
   "keywords": [
     "sharp",
